@@ -10,7 +10,7 @@
 </main>
 
 <footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+	<p>Développé par Louis Triboulin</p>
 </footer>
 
 <style>
@@ -27,7 +27,7 @@
 
 	footer {
 		display: flex;
-		flex-direction: column;
+		flex-direction: column-reverse;
 		justify-content: center;
 		align-items: center;
 		padding: 40px;
