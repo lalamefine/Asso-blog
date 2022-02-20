@@ -21,7 +21,7 @@ body {
 	margin: 0;
 	background-color: var(--primary-color);
 	background: linear-gradient(
-		180deg,
+		190deg,
 		var(--primary-color) 0%,
 		var(--secondary-color) 32%,
 		var(--tertiary-color) 60%

@@ -16,8 +16,8 @@
 			<li class:active={$page.url.pathname === '/about'}>
 				<a sveltekit:prefetch href="/about">About</a>
 			</li>
-			<li class:active={$page.url.pathname === '/todos'}>
-				<a sveltekit:prefetch href="/todos">Todos</a>
+			<li class:active={$page.url.pathname === '/account'}>
+				<a sveltekit:prefetch href="/account">Compte</a>
 			</li>
 		</ul>
 	</nav>
@@ -46,7 +46,7 @@
 		position: relative;
 		padding: 0px 10px;
 		margin: 0;
-		height: 3em;
+		height: 2em;
 	}
 	ul.bar {
 		display: flex;
@@ -55,7 +55,7 @@
 		list-style: none;
 		background: var(--background);
 		background-size: contain;
-		border-radius: 50px;;
+		border-radius: 5px;;
 	}
 
 	li {
@@ -66,16 +66,8 @@
 		height: 100%;
 	}
 
-	li.active::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--primary-color);
+	li.active {
+		background: var(--tertiary-color);
 	}
 
 	nav a {

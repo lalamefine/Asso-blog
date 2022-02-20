@@ -3,6 +3,9 @@
 </script>
 
 <script lang="ts">
+	import Input from '$lib/Input.svelte';
+
+	let password = '';
 </script>
 
 <svelte:head>
@@ -10,10 +13,7 @@
 </svelte:head>
 
 <section>
-	<h1>
-		Bienvenue sur le site de l'AMC du Creusot
-	</h1>
-
+	TestInput: <Input id='test' label='Test' name='test' bind:value={password}/>
 </section>
 
 <style>
@@ -24,9 +24,4 @@
 		align-items: center;
 		flex: 1;
 	}
-
-	h1 {
-		width: 100%;
-	}
-
 </style>
