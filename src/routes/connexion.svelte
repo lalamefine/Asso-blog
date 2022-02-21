@@ -3,9 +3,9 @@
 </script>
 
 <script lang="ts">
-	import Input from '$lib/Input.svelte';
+	import Connexion from '$lib/Account/Connexion.svelte';
+	import Inscription from '$lib/Account/Inscription.svelte';
 
-	let password = '';
 </script>
 
 <svelte:head>
@@ -13,7 +13,9 @@
 </svelte:head>
 
 <section>
-	TestInput: <Input id='test' label='Test' name='test' bind:value={password}/>
+	<Connexion />
+	<hr />
+	<Inscription />
 </section>
 
 <style>
@@ -23,5 +25,12 @@
 		justify-content: center;
 		align-items: center;
 		flex: 1;
+	}
+
+	hr{
+		width: 250px;
+		height: 1px;
+		background-color: rgba(0, 0, 0, 0.2);
+		border: none;
 	}
 </style>

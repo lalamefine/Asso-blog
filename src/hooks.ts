@@ -1,24 +1,28 @@
 import cookie from 'cookie';
-import { v4 as uuid } from '@lukeed/uuid';
-import type { Handle } from '@sveltejs/kit';
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export const handle: Handle = async ({ event, resolve }) => {
+export const handle = async ({ event, resolve }) => {
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-	event.locals.userid = cookies.userid || uuid();
-
+	const token = cookies.token;
+	if(token) {
+		const user = await prisma.user.findUnique({
+			where : {token} 
+		})
+		event.locals.user = user;
+	}
 	const response = await resolve(event);
 
-	if (!cookies.userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		response.headers.set(
-			'set-cookie',
-			cookie.serialize('userid', event.locals.userid, {
-				path: '/',
-				httpOnly: true
-			})
-		);
-	}
-
+	console.log("REQ     -> ", event.request.method , event.request.url);
+	console.log("COOKIES -> ", cookie.parse(event.request.headers.get('cookie') || ''));
 	return response;
 };
+
+/** @type {import('@sveltejs/kit').GetSession} */
+export async function getSession(event) {
+	if (event.locals.user) 
+		return { user: event.locals.user };
+	else
+		return {};
+}
+ 

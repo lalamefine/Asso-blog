@@ -22,7 +22,10 @@ model Post {
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
+  userLevel Int @default(1)
   nom  String
   prenom  String
+  passhash String
+  token String? @unique
   posts Post[]
 }

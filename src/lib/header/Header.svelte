@@ -1,24 +1,53 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { library } from '@fortawesome/fontawesome-svg-core';
+  import { faArrowRightFromBracket, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+	import { FontAwesomeIcon } from 'fontawesome-svelte';
+
+	library.add(faArrowRightFromBracket);
+	library.add(faCirclePlus);
+
+	import { page, session } from '$app/stores';
+	let user = $session['user']??{};
+  let connected = $session['user'] != null;
+  let isAdmin = ( user['userLevel'] ?? 0 ) >=10;
+
+	const disconnect = () => {
+		document.cookie = 'token=; Max-Age=-99999999;'; 
+		window.location.href = '/';
+	};
+
 </script>
 
 <header>
 	<nav>
+		<ul class="bar">
+			<li class:active={$page.url.pathname === '/'}>
+				<a sveltekit:prefetch href="/">Accueil</a>
+			</li>
+			{#if isAdmin}
+				<li>
+					<a href="/nouvelleCategorie"><FontAwesomeIcon icon={faCirclePlus} /></a>
+				</li>
+			{/if}
+		</ul>
 		<ul>
 			<a sveltekit:prefetch href="/">
 				<img class="icon" src="/favicon.png" alt="SvelteKit" />
 			</a>
 		</ul>
 		<ul class="bar">
-			<li class:active={$page.url.pathname === '/'}>
-				<a sveltekit:prefetch href="/">Home</a>
-			</li>
-			<li class:active={$page.url.pathname === '/about'}>
-				<a sveltekit:prefetch href="/about">About</a>
-			</li>
-			<li class:active={$page.url.pathname === '/account'}>
-				<a sveltekit:prefetch href="/account">Compte</a>
-			</li>
+			{#if connected}
+				<li class:active={$page.url.pathname === '/compte'}>
+					<a sveltekit:prefetch href="/compte">{$session['user']['nom']} {$session['user']['prenom']}</a>
+				</li>
+				<li>
+					<a href="/" on:click={disconnect} ><FontAwesomeIcon icon={faArrowRightFromBracket} /></a>
+				</li>
+			{:else}
+				<li class:active={$page.url.pathname === '/connexion'}>
+					<a sveltekit:prefetch href="/connexion">Connexion</a>
+				</li>
+			{/if}
 		</ul>
 	</nav>
 </header>
@@ -45,7 +74,7 @@
 	ul {
 		position: relative;
 		padding: 0px 10px;
-		margin: 0;
+		margin: 0 5px 0 0;
 		height: 2em;
 	}
 	ul.bar {

@@ -50,6 +50,13 @@ body::before {
 	flex-direction: column;
 }
 
+.row{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
 h1,
 h2,
 p {
@@ -95,6 +102,7 @@ button {
 	font-size: inherit;
 	font-family: inherit;
 }
+
 
 button:focus:not(:focus-visible) {
 	outline: none;
