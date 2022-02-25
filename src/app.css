@@ -21,10 +21,9 @@ body {
 	margin: 0;
 	background-color: var(--primary-color);
 	background: linear-gradient(
-		190deg,
-		var(--primary-color) 0%,
-		var(--secondary-color) 32%,
-		var(--tertiary-color) 60%
+		180deg,
+		var(--secondary-color) 0%,
+		var(--tertiary-color) 90%
 	);
 }
 

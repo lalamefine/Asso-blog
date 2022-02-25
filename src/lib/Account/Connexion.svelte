@@ -2,7 +2,9 @@
   import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
   import FAButton from '$lib/FAButton.svelte'
   import Input from '$lib/Input.svelte';
-  
+  import { goto } from '$app/navigation';
+  import { session } from '$app/stores';
+
 	let submitted = false;
 	let error = '';
 
@@ -24,7 +26,10 @@
       })
     }).then(res => {
       if (res.status === 200) {
-        window.location.href = '/';
+        res.json().then(data => {
+          session.set({user : data.item});
+          goto('/');
+        });
       } else {
         error = 'Une erreur est survenue';
       }

@@ -1,19 +1,24 @@
 <script lang="ts">
-	import { library } from '@fortawesome/fontawesome-svg-core';
-  import { faArrowRightFromBracket, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-	import { FontAwesomeIcon } from 'fontawesome-svelte';
+  import { faArrowRightFromBracket, faCirclePlus,faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
-	library.add(faArrowRightFromBracket);
-	library.add(faCirclePlus);
+	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
+import Link from './Link.svelte';
 
-	import { page, session } from '$app/stores';
-	let user = $session['user']??{};
+	let user = $session['user'];
   let connected = $session['user'] != null;
-  let isAdmin = ( user['userLevel'] ?? 0 ) >=10;
+  let isAdmin = $session['user'] ? (( $session['user'].userLevel ?? 0 ) >=10) : false;
+	session.subscribe( function (u) { 
+		user = u['user'];
+		connected = u['user'] != null;
+		isAdmin = u['user'] ? (( u['user'].userLevel ?? 0 ) >=10) : false;
+	})
 
 	const disconnect = () => {
+		console.log('You have been disconnected');
 		document.cookie = 'token=; Max-Age=-99999999;'; 
-		window.location.href = '/';
+		session.set({ user: null });
+		goto('/');
 	};
 
 </script>
@@ -21,32 +26,19 @@
 <header>
 	<nav>
 		<ul class="bar">
-			<li class:active={$page.url.pathname === '/'}>
-				<a sveltekit:prefetch href="/">Accueil</a>
-			</li>
-			{#if isAdmin}
-				<li>
-					<a href="/nouvelleCategorie"><FontAwesomeIcon icon={faCirclePlus} /></a>
-				</li>
-			{/if}
-		</ul>
-		<ul>
-			<a sveltekit:prefetch href="/">
+			<Link href="/">
 				<img class="icon" src="/favicon.png" alt="SvelteKit" />
-			</a>
-		</ul>
-		<ul class="bar">
+			</Link>
+			<Link href="/">Acceuil</Link>
+			{#if isAdmin}
+				<Link href="/nouvelleCategorie" icon={faCirclePlus}/>
+			{/if}
+			<li class="spacer"></li>
 			{#if connected}
-				<li class:active={$page.url.pathname === '/compte'}>
-					<a sveltekit:prefetch href="/compte">{$session['user']['nom']} {$session['user']['prenom']}</a>
-				</li>
-				<li>
-					<a href="/" on:click={disconnect} ><FontAwesomeIcon icon={faArrowRightFromBracket} /></a>
-				</li>
+				<Link href="/compte" icon={faCircleUser}/>
+				<Link href="/" on:click={disconnect} icon={faArrowRightFromBracket}/>
 			{:else}
-				<li class:active={$page.url.pathname === '/connexion'}>
-					<a sveltekit:prefetch href="/connexion">Connexion</a>
-				</li>
+				<Link href="/connexion" icon={faCircleUser}/>
 			{/if}
 		</ul>
 	</nav>
@@ -55,65 +47,34 @@
 <style>
 	header {
 		display: flex;
-		justify-content: center;
+		background: var(--primary-color);
 	}
-
 	img.icon{
 		position: relative;
-		height: 100%;
+		height: calc(100% - 6px);
+		padding: 3px 3px;
 		object-fit: contain;
 	}
-
 	nav {
-		margin: 5px;
 		display: flex;
-		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
+		height: 2rem;
+		width: 100vw;
 	}
-
+	@media (min-width: 768px) {
+		nav {
+			padding: 0 10vw;
+		}
+	}
 	ul {
-		position: relative;
-		padding: 0px 10px;
-		margin: 0 5px 0 0;
-		height: 2em;
-	}
-	ul.bar {
 		display: flex;
-		justify-content: center;
-		align-items: center;
 		list-style: none;
-		background: var(--background);
-		background-size: contain;
-		border-radius: 5px;;
-	}
-
-	li {
 		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		padding: 0px 0px;
+		margin: 0 0 0 0;
 		height: 100%;
+		width: 100%;
 	}
-
-	li.active {
-		background: var(--tertiary-color);
-	}
-
-	nav a {
-		display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 1em;
-		color: var(--heading-color);
-		font-weight: 700;
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		text-decoration: none;
-		transition: color 0.2s linear;
-	}
-
-	a:hover {
-		color: var(--accent-color);
+	.spacer{
+  	flex-grow: 1;
 	}
 </style>

@@ -1,5 +1,6 @@
 import cookie from 'cookie';
 import { PrismaClient } from "@prisma/client";
+import type { RequestEvent } from '@sveltejs/kit';
 const prisma = new PrismaClient();
 
 export const handle = async ({ event, resolve }) => {
@@ -18,11 +19,32 @@ export const handle = async ({ event, resolve }) => {
 	return response;
 };
 
+export async function getContext({ request }) {
+	const cookies = cookie.parse(request.headers.get('cookie') || '');
+	if(!cookies.token) 
+		return {
+			user : null
+		};
+
+	const token = cookies.token;
+	if(token) {
+		const user = await prisma.user.findUnique({
+			where : {token} 
+		})
+		return { user };
+	}
+	return {
+		user : null
+	};
+}
+
 /** @type {import('@sveltejs/kit').GetSession} */
-export async function getSession(event) {
-	if (event.locals.user) 
-		return { user: event.locals.user };
-	else
-		return {};
+export async function getSession( event: RequestEvent ) {
+	const user = (await getContext(event)).user;
+	if(user){
+		delete user.token;
+		delete user.passhash;
+	}
+	return { user }	
 }
  

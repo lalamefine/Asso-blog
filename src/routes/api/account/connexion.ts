@@ -25,6 +25,10 @@ export async function post({ request, params }) {
         token: token
       }
     })
+    if(item) {
+      delete item.token;
+      delete item.passhash;
+    }
 		return {
       headers: {
         'set-cookie': cookie.serialize('token', token, { path: '/' } )
