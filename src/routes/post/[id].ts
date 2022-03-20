@@ -38,7 +38,7 @@ export async function post({ request, params }) {
 		data: post
 	});
 
-	//Enregistrer les Pictures
+	//Enregistrer les Pictures qui ne sont pas déjà enregistrées
 	for (let i = 0; i < pictures.length; i++) {
 		if (!pictures[i].id) {
 			pictures[i].postId = saved_post.id;

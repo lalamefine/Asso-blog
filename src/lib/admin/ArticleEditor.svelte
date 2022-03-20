@@ -7,7 +7,7 @@
 	import { session } from '$app/stores';
 	import { scale } from 'svelte/transition';
 	import { goto } from '$app/navigation';
-import FileUpload from '$lib/tools/FileUpload.svelte';
+	import FileUpload from '$lib/tools/FileUpload.svelte';
 
 	export var post = {
 		id: null,

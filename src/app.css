@@ -44,7 +44,16 @@ body::before {
 	justify-content: space-between;
 	align-items: center;
 }
-
+blockquote
+{
+  font-style:normal;
+  margin-left:32px;
+  font-family:"Segoe Print", "Times New Roman", Verdana;
+  padding-left: 48px;
+  background:url('/images/blockquote.png');
+  background-repeat:no-repeat;
+  min-height: 30px;  
+}
 h1 {
 	font-size: 1.7rem !important;
 }
