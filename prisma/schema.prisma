@@ -10,13 +10,34 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+model Section {
+  id        Int    @id @default(autoincrement())
+  name      String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  posts     Post[]
+}
+
 model Post {
   id        Int     @id @default(autoincrement())
   title     String
   content   String?
   published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
+  author    User?   @relation(fields: [authorId], references: [id])
+  sectionName  String?
+  section   Section?   @relation(fields: [sectionName], references: [name])
+  pictures  Picture[]
+  shape     String
+}
+
+model Picture {
+  id        Int     @id @default(autoincrement())
+  name      String
+  data      String
+  tumbnailData      String?
+  postId    Int?
+  post      Post?   @relation(fields: [postId], references: [id])
 }
 
 model User {

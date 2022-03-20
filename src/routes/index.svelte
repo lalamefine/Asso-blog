@@ -6,14 +6,11 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Accueil</title>
 </svelte:head>
 
 <section>
-	<h1>
-		Bienvenue sur le site de l'AMC du Creusot
-	</h1>
-
+	<h1>Bienvenue sur le site de l'AMC du Creusot</h1>
 </section>
 
 <style>
@@ -28,5 +25,4 @@
 	h1 {
 		width: 100%;
 	}
-
 </style>

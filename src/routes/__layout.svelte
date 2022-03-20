@@ -10,17 +10,17 @@
 </main>
 
 <footer>
-	<p>Développé par Louis Triboulin</p>
+	<p style="color:white;">Développé par Louis Triboulin</p>
 </footer>
 
 <style>
 	main {
-		flex: 1;
+		flex: auto;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 1024px;
+		justify-content: center;
+		align-items: center;
+		padding: 3rem 1rem 1rem 1rem;
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
@@ -31,10 +31,6 @@
 		justify-content: center;
 		align-items: center;
 		padding: 40px;
-	}
-
-	footer a {
-		font-weight: bold;
 	}
 
 	@media (min-width: 480px) {

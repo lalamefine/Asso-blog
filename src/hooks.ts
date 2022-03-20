@@ -1,50 +1,49 @@
 import cookie from 'cookie';
-import { PrismaClient } from "@prisma/client";
-import type { RequestEvent } from '@sveltejs/kit';
+import { PrismaClient } from '@prisma/client';
+import type { RequestEvent } from '@sveltejs/kit/types/internal';
 const prisma = new PrismaClient();
 
 export const handle = async ({ event, resolve }) => {
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 	const token = cookies.token;
-	if(token) {
+	if (token) {
 		const user = await prisma.user.findUnique({
-			where : {token} 
-		})
+			where: { token }
+		});
 		event.locals.user = user;
 	}
 	const response = await resolve(event);
 
-	console.log("REQ     -> ", event.request.method , event.request.url);
-	console.log("COOKIES -> ", cookie.parse(event.request.headers.get('cookie') || ''));
+	// console.log("REQ     -> ", event.request.method , event.request.url);
+	// console.log("COOKIES -> ", cookie.parse(event.request.headers.get('cookie') || ''));
 	return response;
 };
 
 export async function getContext({ request }) {
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	if(!cookies.token) 
+	if (!cookies.token)
 		return {
-			user : null
+			user: null
 		};
 
 	const token = cookies.token;
-	if(token) {
+	if (token) {
 		const user = await prisma.user.findUnique({
-			where : {token} 
-		})
+			where: { token }
+		});
 		return { user };
 	}
 	return {
-		user : null
+		user: null
 	};
 }
 
 /** @type {import('@sveltejs/kit').GetSession} */
-export async function getSession( event: RequestEvent ) {
+export async function getSession(event: RequestEvent) {
 	const user = (await getContext(event)).user;
-	if(user){
+	if (user) {
 		delete user.token;
 		delete user.passhash;
 	}
-	return { user }	
+	return { user };
 }
- 
