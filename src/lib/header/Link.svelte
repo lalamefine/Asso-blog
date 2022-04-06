@@ -8,7 +8,7 @@
 </script>
 
 <li>
-	<a {href} on:click class:active={$page.url.pathname === href}>
+	<a {href} on:click class:active={$page.url.pathname == href}>
 		{#if icon}
 			<div class="icon">
 				<FontAwesomeIcon {icon} />

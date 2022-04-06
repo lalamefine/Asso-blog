@@ -5,6 +5,7 @@
 	import { session } from '$app/stores';
   import { goto } from '$app/navigation';
   import FormatedPicture from './tools/FormatedPicture.svelte';
+import Gallery from './Gallery.svelte';
 	let canedit = $session['user'] ? ($session['user'].userLevel ?? 0) >= 10 : false;
 	session.subscribe(function (u) {
 		canedit = u['user'] ? (u['user'].userLevel ?? 0) >= 5 : false;
@@ -22,11 +23,7 @@
       {/if}
     </h2>
     {#if post.pictures.length >0}
-      <div class="gallery">
-        {#each post.pictures as pic}
-          <FormatedPicture {pic} />
-        {/each}
-      </div>
+      <Gallery pictures={post.pictures} />
     {/if}
     <section>
       <p>{@html post.content}</p>
@@ -36,12 +33,6 @@
 </div>
 
 <style>
-  .gallery {
-    display: flex;
-    height: 20vh;
-    overflow: hidden;
-    justify-content: center;
-  }
   h2{
     color: var(--primary-color);
     padding-left: 2rem;

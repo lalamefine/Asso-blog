@@ -26,8 +26,10 @@ export async function post({ request, params }) {
 	const post = await request.json();
 
 	// Créer la section si innexistante
-	if(await prisma.section.count({ where: { name: post.sectionName } }) == 0 )
-		return prisma.section.create({ data: { name: post.sectionName }});
+	if(await prisma.section.count({ where: { name: post.sectionName } }) == 0 ){
+		if (post.sectionName.length > 0) 
+		prisma.section.create({ data: { name: post.sectionName }});
+	}
 
 	// Sauvegarder les Pictures
 	const pictures = post.pictures;
@@ -44,7 +46,6 @@ export async function post({ request, params }) {
 			pictures[i].postId = saved_post.id;
 			await prisma.picture.create({ data: pictures[i] });
 		}
-
 	}
 
 	if (saved_post) {
@@ -62,6 +63,10 @@ export async function post({ request, params }) {
 export async function del({ request, params }) {
 	var post = await prisma.post.delete({ where: { id: 1*params.id }});
 	if (post) {
+		var postsInSection = await prisma.post.findMany({ where: { sectionName: post.sectionName }});
+		if(postsInSection.length == 0) {
+			var section = await prisma.section.delete({ where: { name: post.sectionName }});
+		}
 		return {
 			body: { post },
 			status: 200

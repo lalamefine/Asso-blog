@@ -4,6 +4,10 @@
   export let post;
 </script>
 
+<svelte:head>
+  <title>{post.title}</title>
+</svelte:head>
+
 <div class="center">
     <ArticleEditor bind:post/>
 </div>

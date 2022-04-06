@@ -10,7 +10,7 @@
 	import FileUpload from '$lib/tools/FileUpload.svelte';
 
 	export var post = {
-		id: null,
+		id: undefined,
 		title:'',
 		content:'',
 		sectionName:'',

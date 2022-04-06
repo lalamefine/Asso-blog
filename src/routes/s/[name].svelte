@@ -3,6 +3,10 @@
   export var section;
 </script>
 
+<svelte:head>
+  <title>{section.name}</title>
+</svelte:head>
+
 <div class="column">
   {#if section}
     {#each section.posts as post}
