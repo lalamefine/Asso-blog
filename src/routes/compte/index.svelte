@@ -18,6 +18,8 @@
         <th>Privilèges</th>
       </tr>
     </thead>
+
+    
     <tbody>
       {#each users as user}
         <tr>
