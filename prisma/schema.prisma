@@ -44,7 +44,7 @@ model Picture {
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
-  userLevel Int @default(1)
+  privilege String @default("Aucun")
   nom  String
   prenom  String
   passhash String

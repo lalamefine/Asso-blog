@@ -19,7 +19,7 @@ CREATE TABLE "Post" (
 CREATE TABLE "User" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "email" TEXT NOT NULL,
-    "userLevel" INTEGER NOT NULL DEFAULT 1,
+    "privilege" INTEGER NOT NULL DEFAULT 1,
     "nom" TEXT NOT NULL,
     "prenom" TEXT NOT NULL,
     "passhash" TEXT NOT NULL,

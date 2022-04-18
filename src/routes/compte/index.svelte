@@ -1,5 +1,28 @@
 <script lang="ts">
+import { goto } from "$app/navigation";
+
+import Input from "$lib/tools/Input.svelte";
+
+
   export let users;
+
+  let options = ['Administrateur','Rédacteur','Aucun'];
+  function saveChanges(user){
+    fetch('/account/'+user.id, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+    .then(r => r.json())
+    .then(r => {
+      if(!r.success){
+        alert(r.error);
+      }
+    });
+  }
+
 </script>
 
 <svelte:head>
@@ -26,13 +49,9 @@
           <td>{user.nom}</td>
           <td>{user.prenom}</td>
           <td>{user.email}</td>
-          {#if user.userLevel >= 10}
-            <td>Administrateur</td>
-          {:else if user.userLevel >= 5}
-            <td>Rédacteur</td>
-          {:else}
-            <td>-</td>
-          {/if}
+          <td>
+            <Input type='select' bind:value={user.privilege} bind:selectOptions={options} on:change={()=> saveChanges(user)}></Input>
+          </td>
         </tr>
       {/each}
     </tbody>

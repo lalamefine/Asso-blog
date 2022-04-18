@@ -13,10 +13,10 @@
 	import { assets } from '$app/paths';
 
 	let connected = $session['user'] != null;
-	let isAdmin = $session['user'] ? ($session['user'].userLevel ?? 0) >= 10 : false;
+	let isAdmin = $session['user'] ? ($session['user'].privilege == "Administrateur") : false;
 	session.subscribe(function (u) {
 		connected = u['user'] != null;
-		isAdmin = u['user'] ? (u['user'].userLevel ?? 0) >= 10 : false;
+		isAdmin = u['user'] ? (u['user'].privilege == "Administrateur") : false;
 	});
 
 	const disconnect = () => {

@@ -1,4 +1,7 @@
 <script lang="ts">
+import { createEventDispatcher } from "svelte";
+
+
 	export let name = '';
 	export let value;
 	export let id = name;
@@ -6,7 +9,8 @@
 	export let placeholder = '';
 	export let type = 'text';
 	export let required = false;
-
+	const dispatch = createEventDispatcher();
+	
 	export let inputRef = null;
 
 	function setType(node) {
@@ -16,14 +20,17 @@
 
 <div class={'flexgrow '+$$props.class}>
 	{#if type == 'select'}
-		<select {name} {id} {required} {placeholder} bind:value bind:this={inputRef} >
+		<select {name} {id} {required} {placeholder} bind:value bind:this={inputRef} on:change={() => dispatch('change')}>
 			{#each selectOptions as option}
-				<option selected={value==option}>{option}</option>
+				{#if option.value && option.label}
+					<option value={option.value} selected={value==option.value}>{option.label}</option>
+				{:else}
+					<option selected={value==option}>{option}</option>
+				{/if}
 			{/each}
 		</select>
 	{:else}
 		<input use:setType {name} {id} {required} {placeholder} bind:value bind:this={inputRef} />
-
 	{/if}
 </div>
 

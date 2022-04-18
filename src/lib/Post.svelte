@@ -5,11 +5,12 @@
 	import { session } from '$app/stores';
   import { goto } from '$app/navigation';
   import FormatedPicture from './tools/FormatedPicture.svelte';
-import Gallery from './Gallery.svelte';
-	let canedit = $session['user'] ? ($session['user'].userLevel ?? 0) >= 10 : false;
+  import Gallery from './Gallery.svelte';
+	let canedit = $session['user'] ? ($session['user'].privilege == "Administrateur" || $session['user'].privilege == "Redacteur") : false;
 	session.subscribe(function (u) {
-		canedit = u['user'] ? (u['user'].userLevel ?? 0) >= 5 : false;
+		canedit = u['user'] ? (u['user'].privilege == "Administrateur" || u['user'].privilege == "Redacteur") : false;
 	});
+  
   
 </script>
 <div class=wrapper>
