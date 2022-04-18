@@ -36,7 +36,7 @@ export async function post({ request, params }) {
 	delete post.pictures;
 
 	const saved_post = await prisma.post.update({
-		where: { id: post.id },
+		where: { id: 1*params.id },
 		data: post
 	});
 

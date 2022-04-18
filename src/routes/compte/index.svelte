@@ -17,7 +17,7 @@ import Input from "$lib/tools/Input.svelte";
     })
     .then(r => r.json())
     .then(r => {
-      if(!r.success){
+      if(r.error){
         alert(r.error);
       }
     });
