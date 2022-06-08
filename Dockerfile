@@ -1,8 +1,10 @@
 # syntax=docker/dockerfile:1
-FROM node:12-alpine
-RUN apk add --no-cache python2 g++ make
-WORKDIR /app
+FROM mhart/alpine-node:latest
+WORKDIR /Asso-blog
+COPY package*.json ./
+RUN npm ci
 COPY . .
-RUN yarn install --production
-CMD ["node", "src/index.js"]
+RUN npx prisma generate
+RUN npm run build
 EXPOSE 3000
+CMD ["node","build"]
