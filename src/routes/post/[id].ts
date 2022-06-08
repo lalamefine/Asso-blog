@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-
+import Prisma, * as PrismaScope from "@prisma/client";
+const PrismaClient = Prisma?.PrismaClient || PrismaScope?.PrismaClient;
 const prisma = new PrismaClient();
+import {controlAccess, getUser} from '$lib/account/ControlAccess';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ request, params }) {
@@ -24,6 +25,18 @@ export async function get({ request, params }) {
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request, params }) {
 	const post = await request.json();
+
+	// Check can edit
+	const user = await getUser(request);
+	if (!user) {
+		return {
+			status: 401
+		};
+	}else if(!controlAccess(user, 'Rédacteur')) {
+		return {
+			status: 403
+		};
+	}
 
 	// Créer la section si innexistante
 	if(await prisma.section.count({ where: { name: post.sectionName } }) == 0 ){
@@ -61,6 +74,19 @@ export async function post({ request, params }) {
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function del({ request, params }) {
+
+	// Check can delete
+	const user = await getUser(request);
+	if (!user) {
+		return {
+			status: 401
+		};
+	}else if(!controlAccess(user, 'Rédacteur')) {
+		return {
+			status: 403
+		};
+	}
+
 	var post = await prisma.post.delete({ where: { id: 1*params.id }});
 	if (post) {
 		var postsInSection = await prisma.post.findMany({ where: { sectionName: post.sectionName }});

@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let pictures = [];
     let fileinput;
-    import {faFileImage} from '@fortawesome/free-solid-svg-icons';
+    import {faFileImage} from '@fortawesome/free-solid-svg-icons/faFileImage';
     import FaButton from './FAButton.svelte';
     import FormatedPicture from './FormatedPicture.svelte';
     import convert from 'image-file-resize';

@@ -1,22 +1,21 @@
 <script lang="ts">
-	import {
-		faArrowRightFromBracket,
-		faArrowRightToBracket,
-		faCirclePlus,
-		faCircleUser,
-		faGear
-	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
 	import Link from './Link.svelte';
 	import { onMount } from 'svelte';
-	import { assets } from '$app/paths';
+	import {faCirclePlus} from '@fortawesome/free-solid-svg-icons/faCirclePlus';
+	import {faCircleUser} from '@fortawesome/free-solid-svg-icons/faCircleUser';
+	import {faGear} from '@fortawesome/free-solid-svg-icons/faGear';
+	import {faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons/faArrowRightFromBracket';
+	import {faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons/faArrowRightToBracket';
 
 	let connected = $session['user'] != null;
 	let isAdmin = $session['user'] ? ($session['user'].privilege == "Administrateur") : false;
+	let isRedacteur = $session['user'] ? ($session['user'].privilege == "Rédacteur") : false;
 	session.subscribe(function (u) {
 		connected = u['user'] != null;
 		isAdmin = u['user'] ? (u['user'].privilege == "Administrateur") : false;
+		isRedacteur = u['user'] ? (u['user'].privilege == "Rédacteur") : false;
 	});
 
 	const disconnect = () => {
@@ -39,21 +38,21 @@
 <header>
 	<nav>
 		<ul class="bar">
-			<Link href="/">
+			<!-- <Link href="/"> -->
 				<img class="icon" src='/images/favicon.png' alt="logo" />
-			</Link>
+			<!-- </Link> -->
 			{#each sections as section}
 				<Link href="/s/{section.name}">{section.name}</Link>
 			{/each}
-			{#if isAdmin}
+			{#if ( isAdmin || isRedacteur )}
 				<Link href="/post/creer" icon={faCirclePlus} />
 			{/if}
 			<li class="spacer" />
 			{#if isAdmin}
 				<Link href="/admin" icon={faGear} />
+				<Link href="/compte" icon={faCircleUser} />
 			{/if}
 			{#if connected}
-				<Link href="/compte" icon={faCircleUser} />
 				<Link href="#" on:click={disconnect} icon={faArrowRightFromBracket} />
 			{:else}
 				<Link href="/connexion" icon={faArrowRightToBracket} />

@@ -1,5 +1,4 @@
 <script lang="ts">
-import { goto } from "$app/navigation";
 
 import Input from "$lib/tools/Input.svelte";
 
@@ -68,11 +67,6 @@ import Input from "$lib/tools/Input.svelte";
     text-align: center;
     margin-top: 2rem;
     color: var(--primary-color);
-  }
-  h3{
-    text-align: center;
-    margin: 0.5rem 0;
-    color: var(--accent-color);
   }
   table {
     width: 100%;

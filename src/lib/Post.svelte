@@ -1,14 +1,14 @@
 <script lang="ts">
   export var post;
   import FAButton from '$lib/tools/FAButton.svelte';
-  import { faPencil } from '@fortawesome/free-solid-svg-icons';
+  import { faPencil } from '@fortawesome/free-solid-svg-icons/faPencil';
 	import { session } from '$app/stores';
   import { goto } from '$app/navigation';
   import FormatedPicture from './tools/FormatedPicture.svelte';
   import Gallery from './Gallery.svelte';
-	let canedit = $session['user'] ? ($session['user'].privilege == "Administrateur" || $session['user'].privilege == "Redacteur") : false;
+	let canedit = $session['user'] ? ($session['user'].privilege == "Administrateur" || $session['user'].privilege == "Rédacteur") : false;
 	session.subscribe(function (u) {
-		canedit = u['user'] ? (u['user'].privilege == "Administrateur" || u['user'].privilege == "Redacteur") : false;
+		canedit = u['user'] ? (u['user'].privilege == "Administrateur" || u['user'].privilege == "Rédacteur") : false;
 	});
   
   

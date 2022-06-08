@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-import cookie from 'cookie';
+import Prisma, * as PrismaScope from "@prisma/client";
+const PrismaClient = Prisma?.PrismaClient || PrismaScope?.PrismaClient;
 const prisma = new PrismaClient();
+import cookie from 'cookie';
 
 var rand = function () {
 	return Math.random().toString(36).substring(2); // remove `0.`

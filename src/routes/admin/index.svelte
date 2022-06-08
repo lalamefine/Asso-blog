@@ -1,5 +1,4 @@
 <script lang="ts">
-import { goto } from '$app/navigation';
 
 	import { scale } from 'svelte/transition';
   export let sections;
@@ -19,7 +18,7 @@ import { goto } from '$app/navigation';
 		.then(function (res){
 			if (res.ok) {
 				alert('Suppression effectuée');
-				goto('/admin');
+        history.go(0);
 			} else error = 'Une erreur est survenue';
 		})
 	}
@@ -38,12 +37,11 @@ import { goto } from '$app/navigation';
 {/if}	
 
 {#if sections}
-  {#each sections as section}
   <div class="section">
-    <h3>{section.name}</h3>
     <table>
       <thead>
         <tr>
+          <th>Section</th>
           <th>Article</th>
           <th>Auteur</th>
           <th>Date</th>
@@ -52,19 +50,21 @@ import { goto } from '$app/navigation';
         </tr>
       </thead>
       <tbody>
-        {#each section.posts as post}
-          <tr>
-            <td>{post.title} </td>
-            <td>{post.author.nom} {post.author.prenom} </td>
-            <td>{post.createdAt}</td>
-            <td><a href="/post/{post.id}">Modifier</a></td>
-            <td><a href="#loading" on:click="{(e) => handleDelete(e, post )}">Supprimer</a></td>
-          </tr>
+        {#each sections as section}
+          {#each section.posts as post}
+            <tr>
+              <td>{section.name}</td>
+              <td>{post.title} </td>
+              <td>{post.author.nom} {post.author.prenom} </td>
+              <td>{post.createdAt}</td>
+              <td><a href="/post/{post.id}">Modifier</a></td>
+              <td><a href="#loading" on:click="{(e) => handleDelete(e, post )}">Supprimer</a></td>
+            </tr>
+          {/each}
         {/each}
       </tbody>
     </table>
   </div>
-{/each}
 {:else}
   <div class="text-center"></div> Aucune section Trouvée
 {/if}
@@ -78,11 +78,6 @@ import { goto } from '$app/navigation';
     text-align: center;
     margin-top: 2rem;
     color: var(--primary-color);
-  }
-  h3{
-    text-align: center;
-    margin: 0.5rem 0;
-    color: var(--accent-color);
   }
   table {
     width: 100%;

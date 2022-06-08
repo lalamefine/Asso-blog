@@ -1,5 +1,5 @@
 <script>
-	import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
+	import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons/faArrowRightLong';
 	import FAButton from '$lib/tools/FAButton.svelte';
 	import Input from '$lib/tools/Input.svelte';
 	import { session } from '$app/stores';

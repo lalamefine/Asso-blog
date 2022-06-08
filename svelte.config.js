@@ -5,6 +5,7 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
+	// experimental: { prebundleSvelteLibraries: false },
 	preprocess: preprocess(),
 	kit: {
 		adapter: adapter(),

@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import Prisma, * as PrismaScope from "@prisma/client";
+const PrismaClient = Prisma?.PrismaClient || PrismaScope?.PrismaClient;
 const prisma = new PrismaClient();
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
@@ -7,6 +8,9 @@ export async function get({ request, params }) {
 		select: {
 			id: true,
 			name: true
+		},
+		orderBy: { 
+			order: "desc" 
 		}
 	});
 	return {

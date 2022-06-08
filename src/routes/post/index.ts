@@ -1,8 +1,23 @@
-import { PrismaClient } from '@prisma/client';
+import Prisma, * as PrismaScope from "@prisma/client";
+const PrismaClient = Prisma?.PrismaClient || PrismaScope?.PrismaClient;
+import {controlAccess, getUser} from '$lib/account/ControlAccess';
 const prisma = new PrismaClient();
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request, params }) {
+
+	// Check can edit
+	const user = await getUser(request);
+	if (!user) {
+		return {
+			status: 401
+		};
+	}else if(!controlAccess(user, 'Rédacteur')) {
+		return {
+			status: 403
+		};
+	}
+
 	const post = await request.json();
 
 	// Créer la section si inexistante

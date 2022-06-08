@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FaButton from "$lib/tools/FAButton.svelte";
-	import { faTimes } from "@fortawesome/free-solid-svg-icons";
+	import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 	export let visible = false;
 	export let title = '';
 </script>

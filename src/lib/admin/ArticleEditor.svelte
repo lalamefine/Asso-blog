@@ -2,7 +2,7 @@
 	import Input from '$lib/tools/Input.svelte';
 	import FaButton from '$lib/tools/FAButton.svelte';
 	import TextEditor from '$lib/tools/TextEditor.svelte';
-	import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+	import { faTrashCan } from '@fortawesome/free-solid-svg-icons/faTrashCan';
 	import { onMount } from 'svelte';
 	import { session } from '$app/stores';
 	import { scale } from 'svelte/transition';
@@ -147,12 +147,6 @@
 		padding: 0 5px;
 		border-left: 1px solid rgba(128, 128, 128, 0.288);
 		border-right: 1px solid rgba(128, 128, 128, 0.288);
-	}
-	h2{
-		text-align: center;
-		font-weight: bold;
-		font-size: 1.5rem;
-		color: var(--accent-color);
 	}
 	.error{
 		color: red;

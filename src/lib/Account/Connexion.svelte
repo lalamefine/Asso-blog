@@ -1,5 +1,5 @@
 <script>
-	import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
+	import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons/faArrowRightLong';
 	import FAButton from '$lib/tools/FAButton.svelte';
 	import Input from '$lib/tools/Input.svelte';
 	import { goto } from '$app/navigation';
@@ -31,6 +31,8 @@
 						session.set({ user: data.item });
 						goto('/');
 					});
+				} else if(res.status === 404) {
+					error = 'Email ou mot de passe incorrect';
 				} else {
 					error = 'Une erreur est survenue';
 				}
@@ -46,6 +48,11 @@
 		<h2>Connexion</h2>
 		<FAButton type="submit" icon={faArrowRightLong} />
 	</div>
+	{#if error}
+		<div class="row">
+			<p class="error">{error}</p>
+		</div>
+	{/if}
 	<br/>
 	<Input placeholder="Email" id="email" name="email" bind:value={email} />
 	<Input
