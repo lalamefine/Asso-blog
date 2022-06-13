@@ -11,8 +11,12 @@ export async function post({ request, params }) {
 		email: reqbody.email,
 		nom: reqbody.nom,
 		prenom: reqbody.prenom,
-		passhash: hash
+		passhash: hash,
+		privilege: "Aucun"
 	};
+	if(await prisma.user.count() == 0)
+		user.privilege = 'Administrateur'
+
 	const item = await prisma.user.create({
 		data: user
 	});
