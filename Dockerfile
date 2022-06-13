@@ -6,4 +6,4 @@ RUN npm ci
 COPY . .
 RUN npx prisma generate && npm run build
 EXPOSE 3000
-CMD ["node","build"]
+CMD ["sh", "start.sh"]
